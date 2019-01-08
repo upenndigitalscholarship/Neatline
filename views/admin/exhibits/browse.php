@@ -4,6 +4,7 @@
  * @package     omeka
  * @subpackage  neatline
  * @copyright   2014 Rector and Board of Visitors, University of Virginia
+ * Revised by Haoran Shao for PennMuseum
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
@@ -93,6 +94,16 @@
                   <?php echo nl_getExhibitLink(
                     $e, 'import', __('Import Items'),
                     array('class' => 'import'), false
+                  ); ?>
+                </li>
+              <?php endif; ?>
+
+               <!-- Export Omeka Items. -->
+              <?php if (is_allowed($e, 'export')): ?>
+                <li>
+                  <?php echo nl_getExhibitLink(
+                    $e, 'export', __('Export Items'),
+                    array('class' => 'Export'), false
                   ); ?>
                 </li>
               <?php endif; ?>
