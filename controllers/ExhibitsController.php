@@ -177,7 +177,7 @@ class Neatline_ExhibitsController extends Neatline_Controller_Rest
             from $rName where exhibit_id = {$exid}";
         $result = $db->query($query);
         if(!$result){
-            die('Couldnot fetch records');
+            die('Could not fetch records');
         }
         $head = array("id", "owner_id", "item_id", "exhibit_id", "added", "modified", "is_coverage", "is_wms",  "slug", "title", "item_title", "body", "coverage", "tags", "widgets",
             "presenter", "fill_color", "fill_color_select", "stroke_color", "stroke_color_select", "fill_opacity",    "fill_opacity_select", "stroke_opacity", "stroke_opacity_select", "stroke_width",    "point_radius", "zindex", "weight", "start_date", "end_date", "after_date", "before_date", "point_image", "wms_address", "wms_layers", "min_zoom", "max_zoom", "map_zoom", "map_focus");
@@ -224,7 +224,7 @@ class Neatline_ExhibitsController extends Neatline_Controller_Rest
             $lon = $values[0];
             $lat_new = (360 / M_PI) * atan(pow(M_E, (M_PI * $lat / 20037508.34))) - 90;
             $lon_new = 180 * $lon / 20037508.34;
-            $ret[] = array($lat_new, $lon_new);
+            $ret[] = array($lon_new, $lat_new);
         }
         if($type == "POL"){
             return array($ret);
@@ -273,14 +273,15 @@ class Neatline_ExhibitsController extends Neatline_Controller_Rest
     }
     public function exportAction(){
         $exhibit = $this->_helper->db->findById();
-        $filename = $exhibit->id;
-        $geometry = $this->exportSQL($filename);
+        $fileid = $exhibit->id;
+        $filename = "export-exhibit-" . $exhibit->id . date('-Y-m-d-H-i-s');
+        $geometry = $this->exportSQL($fileid);
         $geojson = $this->exportGeoJson($geometry);
         // echo $geojson;
         $file_path_csv = WEB_RELATIVE_FILES.'/neatline_test.csv';
-        $file_csv = "<a href= {$file_path_csv} download={$filename}.csv>Download csv</a>";
+        $file_csv = "<a href= {$file_path_csv} download={$filename}.csv>Download CSV</a>";
         $file_path_geojson = WEB_RELATIVE_FILES.'/exporting.geojson';
-        $file_geojson = "<a href= {$file_path_geojson} download={$filename}.geojson>Download geojson</a>";
+        $file_geojson = "<a href= {$file_path_geojson} download={$filename}.geojson>Download GeoJSON</a>";
 
         $this->view->file_csv = $file_csv;
         $this->view->file_geojson = $file_geojson;

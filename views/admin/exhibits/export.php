@@ -17,7 +17,7 @@
 
 <div id="primary">
   <?php echo flash(); ?>
-  <?php echo $file_csv; ?>
+  <?php echo $file_csv . " | "; ?>
   <?php echo $file_geojson; ?>
 </div>
 
